@@ -11,26 +11,25 @@ class Produtos{
         float preco;
     public:
         void setNome(string n){
-            nome = n;
+             if(!n.empty()){
+            	nome = n;
+        	}
         }
+		void setCodigo(int c){
+			codigo = c;
+		}
         void setQuantidade(int q){
-            quantidade = q;
+            if (q>=0){
+				quantidade = q;
+			}
+
         }
         void setPreco(float p){
-            preco = p;
+           	if (p>0){
+				preco = p;
+			}
         }
-        void gerarCodigo(){
-            unsigned seed = time(0);
-            srand(seed);
-            codigo = rand()%1000;
-        }
-        Produtos(string nome, float preco){
-            setNome(nome);
-            setPreco(preco);
-            setQuantidade(quantidade);
-            gerarCodigo();
-        }
-        string getNome(){
+		string getNome(){
             return nome;
         }
 
@@ -43,8 +42,25 @@ class Produtos{
         float getPreco(){
             return preco;
         }
+    private:
+        void gerarCodigo(){
+            unsigned seed = time(0);
+            srand(seed);
+            codigo = rand()%1000;
+        }
+	public:
+        Produtos(){
+           nome = "";
+			codigo = 0;
+			quantidade = 0;
+			preco = 0;
+
+        }
+
+};
 
 
 
+int main(){
 
-int main(){}
+}
