@@ -52,4 +52,52 @@ using namespace std;
         return rua + "," + bairro + "," + cidade + " - " + estado + ", CEP:" + cep;
         }
     };
+    class Comprador {
+        private:
+            string nome;
+            string cpf;
+            string email;
+            Endereco enderecoEntrega;
+        public:
+        Comprador() {
+            nome = "";
+            cpf = "";
+            email = "";
+        }
+        void setNome(string n){
+            nome = n;
+        }
+        string getNome(){
+            return nome;
+        }
+        void setCpf(string c){
+            cpf = c;
+        }
+        string getCpf(){
+        return cpf;
+        }
+        void setEmail(string e){
+            email = e;
+        }
+        string getEmail(){
+            return email;
+        }
+        void setDadosEndereco(string r, string b, string cid, string est, string cp) {
+           enderecoEntrega.setRua(r);
+           enderecoEntrega.setBairro(b);
+           enderecoEntrega.setCidade(cid);
+           enderecoEntrega.setEstado(est);
+           enderecoEntrega.setCep(cp);
+        }
+        const Endereco& getEndereco() const {
+            return enderecoEntrega;
+        }
+        void exibirDados(){
+            cout << "\n Dados do Comprador \n"
+            cout << "Nome: " << getNome() << endl;
+            cout << "CPF: " << getCpf << endl;
+            cout << "E-mail: " << getEmail << endl;
+            cout << "Endereco: " << getEndereco().getEnderecoCompleto() << endl;
+        }
+    };
 int main(){}
