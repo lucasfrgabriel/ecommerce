@@ -100,5 +100,4 @@ using namespace std;
             cout << "Endereco: " << getEndereco().getEnderecoCompleto() << endl;
         }
     };
-int main(){
-}
+int main(){}
