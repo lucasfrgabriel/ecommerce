@@ -1,3 +1,10 @@
+#pragma once
+#include <iostream>
+#include "vendedores.hpp"
+#include "../Henrique/compradores.hpp"
+#include "../LuisGustavo/produtos.hpp"
+using namespace std;
+
 class Vendas {
 private:
     int codigo_venda;

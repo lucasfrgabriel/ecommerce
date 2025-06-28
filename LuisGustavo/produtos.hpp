@@ -1,3 +1,7 @@
+#pragma once
+#include <iostream>
+using namespace std;
+
 class Produtos{
     private:
         string nome;
