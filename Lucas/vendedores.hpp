@@ -1,9 +1,3 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-
-using namespace std;
-
 class Vendedores{
     private:
     string nome;
@@ -11,23 +5,24 @@ class Vendedores{
     float salario;
     float comissoes;
 
+    void setNumero() {
+        if (numero == 0) {
+            srand(seed);
+            numero = rand()%1000;
+        }
+    }
+
     public:
     Vendedores(){
         nome = "";
         numero = 0;
         salario = 0;
-        comissoes = 0;
+        comissoes = 0,03;
     }
 
     void setNome(string n){
         if(!n.empty()){
             nome = n;
-        }
-    }
-
-    void setNumero() {
-        if (numero == 0) {
-            numero = 1000 + rand() % 9000;
         }
     }
 
@@ -38,9 +33,7 @@ class Vendedores{
     }
 
     void setComissoes(float c){
-        if(c > 0){
-            comissoes += c;
-        }
+        salario += (comissoes * c);
     }
 
     void setVendedor(string name, float salarioFixo, float comissao){
@@ -55,7 +48,3 @@ class Vendedores{
     float getSalario(){return salario;}
     float getComissoes(){return comissoes;}
 };
-
-int main(){
-    srand(time(0));
-}

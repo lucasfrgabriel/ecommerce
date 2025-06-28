@@ -1,23 +1,31 @@
-#include <iostream>
-#include <cstdlib>
-#include <ctime>
-using namespace std;
-
 class Produtos{
     private:
         string nome;
         int codigo;
         int quantidade;
         float preco;
+
+		void gerarCodigo(){
+			srand(seed);
+			codigo = rand()%1000;
+		}
     public:
+		Produtos(){
+			nome = "";
+			gerarCodigo();
+			quantidade = 0;
+			preco = 0;
+		}
+		Produtos(string n, int q, float p){
+			setNome(n);
+			setQuantidade(q);
+			setPreco(p);
+		}
         void setNome(string n){
              if(!n.empty()){
             	nome = n;
         	}
         }
-		void setCodigo(int c){
-			codigo = c;
-		}
         void setQuantidade(int q){
             if (q>=0){
 				quantidade = q;
@@ -42,25 +50,4 @@ class Produtos{
         float getPreco(){
             return preco;
         }
-    private:
-        void gerarCodigo(){
-            unsigned seed = time(0);
-            srand(seed);
-            codigo = rand()%1000;
-        }
-	public:
-        Produtos(){
-           nome = "";
-			codigo = 0;
-			quantidade = 0;
-			preco = 0;
-
-        }
-
 };
-
-
-
-int main(){
-
-}

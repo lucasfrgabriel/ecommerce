@@ -1,64 +1,60 @@
-#include <iostream>
-#include <cstdlib>
-#include <string>
-#include <vector>
-using namespace std;
-    class Endereco{
-        private:
-            string rua;
-            string bairro;
-            string cidade;
-            string estado;
-            string cep;
-        public:
-            Endereco(){
-                rua = "";
-                bairro = "";
-                cidade = "";
-                estado = "";
-                cep = "";
-            }
+class Endereco{
+    private:
+        string rua;
+        string bairro;
+        string cidade;
+        string estado;
+        string cep;
+    public:
+        Endereco(){
+            rua = "";
+            bairro = "";
+            cidade = "";
+            estado = "";
+            cep = "";
+        }
     void setRua(string r){
-            rua = r;
-            }
+        rua = r;
+    }
     void setBairro(string b){
-            bairro = b;
-            }
+        bairro = b;
+    }
     void setCidade(string c){
-            cidade = c;
-            }
+        cidade = c;
+    }
     void setEstado(string e){
-            estado = e;
-            }
+        estado = e;
+    }
     void setCep(string c){
-            cep = c;
-            }
+        cep = c;
+    }
     string getRua(){
         return rua;
-        }
+    }
     string getBairro(){
         return bairro;
-        }
+    }
     string getCidade(){
         return cidade;
-        }
+    }
     string getEstado(){
         return estado;
-        }
+    }
     string getCep() {
         return cep;
-        }
+    }
     string getEnderecoCompleto(){
-        return rua + "," + bairro + "," + cidade + " - " + estado + ", CEP:" + cep;
-        }
-    };
-    class Comprador {
-        private:
-            string nome;
-            string cpf;
-            string email;
-            Endereco enderecoEntrega;
-        public:
+        return rua + ", " + bairro + ", " + cidade + " - " + estado + ", CEP: " + cep;
+    }
+};
+
+class Comprador {
+    private:
+        string nome;
+        string cpf;
+        string email;
+        Endereco enderecoEntrega;
+    public:
         Comprador() {
             nome = "";
             cpf = "";
@@ -74,7 +70,7 @@ using namespace std;
             cpf = c;
         }
         string getCpf(){
-        return cpf;
+            return cpf;
         }
         void setEmail(string e){
             email = e;
@@ -89,15 +85,15 @@ using namespace std;
            enderecoEntrega.setEstado(est);
            enderecoEntrega.setCep(cp);
         }
-        const Endereco& getEndereco() const {
+        Endereco getEndereco() const {
             return enderecoEntrega;
         }
+
         void exibirDados(){
-            cout << "\n Dados do Comprador \n"
+            cout << "\n Dados do Comprador \n";
             cout << "Nome: " << getNome() << endl;
-            cout << "CPF: " << getCpf << endl;
-            cout << "E-mail: " << getEmail << endl;
+            cout << "CPF: " << getCpf() << endl;
+            cout << "E-mail: " << getEmail() << endl;
             cout << "Endereco: " << getEndereco().getEnderecoCompleto() << endl;
         }
-    };
-int main(){}
+};
