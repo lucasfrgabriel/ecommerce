@@ -24,6 +24,7 @@ class Produtos{
 			setNome(n);
 			setQuantidade(q);
 			setPreco(p);
+
 		}
         void setNome(string n){
              if(!n.empty()){
@@ -54,4 +55,9 @@ class Produtos{
         float getPreco(){
             return preco;
         }
+	void salvarNoArquivo(ofstream &arquivo) {
+			arquivo << "--------------------------------------------------------------------------------------------------------------------------\n";
+			arquivo << "Nome: " << nome << " - codigo: " << codigo << " - quantidade: " << quantidade << " - preço: " << preco << "\n";
+			arquivo << "---------------------------------------------------------------------------------------------------------------------------\n";
+	}
 };
