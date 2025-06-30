@@ -51,4 +51,10 @@ class Vendedores{
     int getNumero(){return numero;}
     float getSalario(){return salario;}
     float getComissoes(){return comissoes;}
+
+    void salvarNoArquivo(ofstream &arquivo) {
+        arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
+        arquivo << "Nome: " << nome << " - numero: " << numero << " - salário: " << salario << " - comissões: " << comissoes<< "\n";
+        arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
+    }
 };
