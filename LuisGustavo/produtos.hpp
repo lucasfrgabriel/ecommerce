@@ -10,6 +10,7 @@ class Produtos{
         float preco;
 
 		void gerarCodigo(){
+			seed = time(0);
 			srand(seed);
 			codigo = rand()%1000;
 		}

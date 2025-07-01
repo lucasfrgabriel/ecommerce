@@ -21,9 +21,6 @@ void realizarVenda(Vendas*& lista_vendas, int& total_vendas, int& capacidade_ven
 void emitirNotaFiscal(const Vendas* lista_vendas, int total_vendas);
 
 int main() {
-    seed = time(0);
-    srand(seed);
-
     int capacidade_produtos = 5;
     int capacidade_vendedores = 5;
     int capacidade_compradores = 5;

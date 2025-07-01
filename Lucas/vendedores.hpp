@@ -9,8 +9,9 @@ class Vendedores{
     float salario;
     float comissoes;
 
-    void setNumero() {
+    void gerarNumero() {
         if (numero == 0) {
+            seed = time(0);
             srand(seed);
             numero = rand()%1000;
         }
@@ -22,6 +23,12 @@ class Vendedores{
         numero = 0;
         salario = 0;
         comissoes = 0,03;
+    }
+    Vendedores(string name, float salarioFixo, float comissao){
+        setNome(name);
+        setNumero();
+        setSalario(salarioFixo);
+        setComissoes(comissao);
     }
 
     void setNome(string n){
@@ -36,15 +43,8 @@ class Vendedores{
         }
     }
 
-    void setComissoes(float c){
+    void setComissoes(float c) {
         salario += (comissoes * c);
-    }
-
-    void setVendedor(string name, float salarioFixo, float comissao){
-        setNome(name);
-        setNumero();
-        setSalario(salarioFixo);
-        setComissoes(comissao);
     }
 
     string getNome(){return nome;}

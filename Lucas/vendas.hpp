@@ -1,14 +1,13 @@
 #pragma once
 #include <iostream>
 #include "vendedores.hpp"
-#include "../Henrique/compradores.hpp"
 #include "../LuisGustavo/produtos.hpp"
 using namespace std;
 
 class Vendas {
 private:
     int codigo_venda;
-    Comprador comprador;
+    string nomeComprador;
     Vendedores &vendedor;
 
     Produtos* listaProdutos;
@@ -19,7 +18,8 @@ private:
     bool vendaFinalizada;
 
     void gerarCodigoVenda() {
-        codigo_venda = rand()%1000;
+        srand(time(0));
+        codigo_venda = rand() % 1000;
     }
 
     void calcularValorTotal() {
@@ -30,13 +30,17 @@ private:
     }
 
 public:
-    Vendas(Comprador c, Vendedores &v, int totalItensDistintos) : vendedor(v) {
-        comprador = c;
+    Vendas() : codigo_venda(0), nomeComprador(""), vendedor(*(new Vendedores)),
+               listaProdutos(nullptr), capacidade(0), quantidadeProdutos(0),
+               valorTotal(0), vendaFinalizada(false) {}
+
+    Vendas(string nomeComprador, Vendedores &vendedor, int totalItensDistintos)
+        : nomeComprador(nomeComprador), vendedor(vendedor) {
         valorTotal = 0;
         quantidadeProdutos = 0;
         vendaFinalizada = false;
 
-        capacidade = totalItensDistintos > 0 ? totalItensDistintos : 1;
+        capacidade = (totalItensDistintos > 0) ? totalItensDistintos : 1;
         listaProdutos = new Produtos[capacidade];
 
         gerarCodigoVenda();
@@ -46,50 +50,52 @@ public:
         delete[] listaProdutos;
     }
 
-    void adicionarProduto(Produtos &p, int quantidadeVendida) {
+    void finalizarVenda() {
         if (vendaFinalizada) {
-            std::cout << "Erro: Esta venda ja foi finalizada e nao pode ser alterada." << std::endl;
+            cout << "Aviso: Venda já finalizada." << endl;
+            return;
+        }
+
+        calcularValorTotal();
+        vendedor.setComissoes(valorTotal);
+        vendaFinalizada = true;
+    }
+
+    int getCodigoVenda() const { return codigo_venda; }
+    string getNomeComprador() const { return nomeComprador; }
+    string getNomeVendedor() const { return vendedor.getNome(); }
+    float getValorTotal() { calcularValorTotal(); return valorTotal; }
+    bool isFinalizada() const { return vendaFinalizada; }
+
+    void setNomeComprador(const string &novoNome) {
+        if (!vendaFinalizada) {
+            nomeComprador = novoNome;
+        } else {
+            cout << "Erro: Venda finalizada. Não é possível alterar o comprador." << endl;
+        }
+    }
+
+    void setProduto(Produtos &p, int quantidadeVendida) {
+        if (vendaFinalizada) {
+            cout << "Erro: Venda finalizada. Não é possível adicionar produtos." << endl;
             return;
         }
 
         if (quantidadeProdutos >= capacidade) {
-            std::cout << "Erro: Limite de produtos para esta venda foi atingido!" << std::endl;
+            cout << "Erro: Capacidade máxima de produtos atingida." << endl;
             return;
         }
 
         if (p.getQuantidade() < quantidadeVendida) {
-            std::cout << "Erro: Estoque insuficiente para o produto " << p.getNome() << std::endl;
+            cout << "Erro: Estoque insuficiente para " << p.getNome() << endl;
             return;
         }
 
         Produtos produtoVendido = p;
         produtoVendido.setQuantidade(quantidadeVendida);
-
         listaProdutos[quantidadeProdutos] = produtoVendido;
         quantidadeProdutos++;
 
         p.setQuantidade(p.getQuantidade() - quantidadeVendida);
-    }
-
-    void finalizarVenda() {
-        if (vendaFinalizada) {
-            std::cout << "Aviso: Esta venda ja foi finalizada anteriormente." << std::endl;
-            return;
-        }
-        calcularValorTotal();
-
-        vendedor.setComissoes(valorTotal);
-
-        vendaFinalizada = true;
-
-        std::cout << "Venda " << getCodigoVenda() << " finalizada com sucesso!" << std::endl;
-        std::cout << "Valor total: R$ " << getValorTotal() << std::endl;
-        std::cout << "Comissao de R$ " << comissaoDaVenda << " adicionada ao vendedor " << vendedor.getNome() << "." << std::endl;
-    }
-
-    int getCodigoVenda() { return codigo_venda; }
-    float getValorTotal() {
-        calcularValorTotal();
-        return valorTotal;
     }
 };
