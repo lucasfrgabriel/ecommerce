@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <ctime>
+#include <fstream>
 using namespace std;
 
 class Vendedores{
@@ -8,7 +9,7 @@ class Vendedores{
     string nome;
     int numero;
     float salario;
-    float comissoes;
+    float comissoes = 0.03;
 
     void gerarNumero() {
         if (numero == 0) {
@@ -21,13 +22,11 @@ class Vendedores{
         nome = "";
         numero = 0;
         salario = 0;
-        comissoes = 0.03;
     }
-    Vendedores(string name, float salarioFixo);{
+    Vendedores(string name, float salarioFixo){
         setNome(name);
         gerarNumero();
         setSalario(salarioFixo);
-        comissoes = 0.03;
     }
 
     void setNome(string n){
@@ -42,7 +41,7 @@ class Vendedores{
         }
     }
 
-    void setComissoes(float c) {
+    void caculaComissao(float c) {
         salario += (comissoes * c);
     }
 
