@@ -17,37 +17,18 @@ class Endereco{
             estado = "";
             cep = "";
         }
-    void setRua(string r){
-        rua = r;
-    }
-    void setBairro(string b){
-        bairro = b;
-    }
-    void setCidade(string c){
-        cidade = c;
-    }
-    void setEstado(string e){
-        estado = e;
-    }
-    void setCep(string c){
-        cep = c;
-    }
-    string getRua(){
-        return rua;
-    }
-    string getBairro(){
-        return bairro;
-    }
-    string getCidade(){
-        return cidade;
-    }
-    string getEstado(){
-        return estado;
-    }
-    string getCep() {
-        return cep;
-    }
+    void setRua(string r){ rua = r; }
+    void setBairro(string b){ bairro = b; }
+    void setCidade(string c){ cidade = c; }
+    void setEstado(string e){ estado = e; }
+    void setCep(string c){ cep = c; }
+    string getRua(){ return rua; }
+    string getBairro(){ return bairro; }
+    string getCidade(){ return cidade; }
+    string getEstado(){ return estado; }
+    string getCep() { return cep; }
     string getEnderecoCompleto(){
+        if(rua.empty()) return "Endereco nao cadastrado.";
         return rua + ", " + bairro + ", " + cidade + " - " + estado + ", CEP: " + cep;
     }
 };
@@ -64,29 +45,32 @@ class Comprador {
             cpf = "";
             email = "";
         }
+
         Comprador(string nomeComprador, string cpfComprador, string emailComprador,
-                  string rua, string bairro, string cidade, string estado, string cep) {
-            setNome();
-            setCpf();
-            setEmail();
-            setDadosEndereco();
+                  string rua, string bairro, string cidade, string estado, string cep) :
+            nome(nomeComprador),
+            cpf(cpfComprador),
+            email(emailComprador)
+        {
+            setDadosEndereco(rua, bairro, cidade, estado, cep);
         }
+
         void setNome(string n){
             nome = n;
         }
-        string getNome(){
+        string getNome() const { // Adicionar 'const' é uma boa prática para getters
             return nome;
         }
         void setCpf(string c){
             cpf = c;
         }
-        string getCpf(){
+        string getCpf() const {
             return cpf;
         }
         void setEmail(string e){
             email = e;
         }
-        string getEmail(){
+        string getEmail() const {
             return email;
         }
         void setDadosEndereco(string r, string b, string cid, string est, string cp) {
@@ -96,11 +80,11 @@ class Comprador {
            enderecoEntrega.setEstado(est);
            enderecoEntrega.setCep(cp);
         }
-        Endereco getEndereco() const {
+        const Endereco& getEndereco() const {
             return enderecoEntrega;
         }
 
-        void exibirDados(){
+        void exibirDados() const {
             cout << "\n Dados do Comprador \n";
             cout << "Nome: " << getNome() << endl;
             cout << "CPF: " << getCpf() << endl;
