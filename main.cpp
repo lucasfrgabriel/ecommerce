@@ -11,11 +11,35 @@ void exibirMenu() {
     cout << "E-commerce: Menu principal" << endl;
     cout <<"Selecione uma opção:" << endl;
     cout << "--------------------------------------------" << endl;
-    cout << "1. Cadastrar Produto" << endl;
-    cout << "2. Cadastrar Vendedor" << endl;
-    cout << "3. Cadastrar Comprador" << endl;
+    cout << "1. Menu de produtos" << endl;
+    cout << "2. Menu de vendedores" << endl;
+    cout << "3. Menu de compradores" << endl;
+    cout << "4. Menu de vendas" << endl;
     cout << "4. Realizar Venda" << endl;
     cout << "0. Sair" << endl;
+    cout << "--------------------------------------------" << endl;
+}
+
+void exibirSubMenu(int opcao) {
+    string tipo;
+    switch (opcao) {
+        case 1:
+            tipo = "produto";
+            break;
+        case 2:
+            tipo = "vendedor";
+            break;
+        case 3:
+            tipo = "comprador";
+            break;
+    }
+    cout << "E-commerce: Menu de " << tipo << endl;
+    cout <<"Selecione uma opção:" << endl;
+    cout << "--------------------------------------------" << endl;
+    cout << "1. Criar novo " << tipo << endl;
+    cout << "2. Alterar " << tipo <<endl;
+    cout << "3. Excluir " << tipo <<endl;
+    cout << "0. Voltar ao menu principal" << endl;
     cout << "--------------------------------------------" << endl;
 }
 
@@ -43,7 +67,7 @@ void cadastrarProduto(Produtos listaDeProdutos[], int i) {
     cout << "Produto cadastrado com sucesso!" << endl;
 }
 
-void cadastrarVendedor(Vendedores listaDeVendedores[], int i) {
+bool cadastrarVendedor(Vendedores listaDeVendedores[], int i) {
     string nome;
     float salario;
 
@@ -53,9 +77,15 @@ void cadastrarVendedor(Vendedores listaDeVendedores[], int i) {
     cout << "Salario fixo do vendedor: ";
     limpaBuffer();
     cin >> salario;
-
-    listaDeVendedores[i] = Vendedores(nome, salario);
-    cout << "Vendedor cadastrado com sucesso!" << endl;
+    if (salario >= 0) {
+        listaDeVendedores[i] = Vendedores(nome, salario);
+        cout << "Vendedor cadastrado com sucesso!" << endl;
+        return true;
+    }
+    else {
+        cout << "Erro ao cadastrar vendedor, salario invalido." << endl;
+        return false;
+    }
 }
 
 void cadastrarComprador(Comprador listaDeCompradores[], int i) {
@@ -180,11 +210,92 @@ bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[]
     return true;
 }
 
-void cabecalhoNF() {
-    notaFiscal << "--------------------------------------------" << endl;
-    notaFiscal << "                 NOTA FISCAL"                 << endl;
-    notaFiscal << "--------------------------------------------" << endl;
+void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
+    int codigo, indiceProduto, opcao;
+    bool verifica = true;
+
+    cout << "Digite o codigo do produto a ser alterado: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdProdutos; i++) {
+        if (listaDeProdutos[i].getCodigo() == codigo) {
+            indiceProduto = i;
+        }
+    }
+    cout << "Produto encontrado! Informacoes do Produto:" << endl;
+    cout << "Nome: " << listaDeProdutos[indiceProduto].getNome() << endl;
+    cout << "Quantidade em estoque: " << listaDeProdutos[indiceProduto].getQuantidade() << endl;
+    cout << "Preco por unidade: " << listaDeProdutos[indiceProduto].getPreco() << endl;
+    while (verifica) {
+        cout << "--------" << listaDeProdutos[indiceProduto].getNome() << "--------" << endl;
+        cout << "1. Alterar nome" << endl;
+        cout << "2. Alterar quantidade em estoque" << endl;
+        cout << "3. Alterar preco por unidade" << endl;
+        cout << "0. Voltar ao menu anterior" << endl;
+        cout << "-----------------" << endl;
+        cin >> opcao;
+        switch (opcao) {
+            case 1:
+                string nome;
+                cout << "Digite o nome novo: ";
+                limpaBuffer();
+                getline(cin, nome);
+                listaDeProdutos[indiceProduto].setNome(nome);
+                cout << "Nome alterado com sucesso!" << endl;
+                break;
+            case 2:
+                int quantidade;
+                cout << "Digite a nova quantidade em estoque: ";
+                limpaBuffer();
+                cin >> quantidade;
+                if (quantidade>=0) {
+                    listaDeProdutos[indiceProduto].setQuantidade(quantidade);
+                    cout << "Quantidade alterada com sucesso!" << endl;
+                }
+                else {
+                    cout << "Quantidade invalida." << endl;
+                }
+                break;
+            case 3:
+                float preco;
+                cout << "Digite o novo preco por unidade: ";
+                limpaBuffer();
+                cin >> preco;
+                if (preco>=0) {
+                    listaDeProdutos[indiceProduto].setPreco(preco);
+                    cout << "Preco alterado com sucesso!" << endl;
+                }
+                else {
+                    cout << "Preco invalido." << endl;
+                }
+                break;
+            case 0:
+                verifica = false;
+                break;
+            default:
+                cout << "Opcao invalida, tente novamente." << endl;
+                break;
+        }
+    }
+
 }
+
+void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
+    switch (opcao) {
+        case 1:
+            cout << "Cadastro de produto" << endl;
+            cadastrarProduto(listaDeProdutos, qtdProdutos);
+            qtdProdutos++;
+            break;
+        case 2:
+            cout << "Alteracao de produto" << endl;
+            alterarProduto(listaDeProdutos, qtdProdutos);
+        case 3:
+        case 0:
+        default:
+    }
+}
+
 float calculoFrete( Vendas v) {
         float frete;
         float precoTotal = v.getValorTotal();
@@ -200,14 +311,16 @@ float calculoFrete( Vendas v) {
 
     return frete;
 }
-void notaFiscal( Comprador c, Produtos *p, int qtdProduto, Vendas v ) {
 
+void notaFiscal(Comprador c, Produtos *p, int qtdProduto, Vendas v) {
     fstream notaFiscal("notaFiscal.txt", ios::in | ios::out | ios::trunc);
     if (!notaFiscal.is_open()) {
         cerr << "Erro ao abrir o arquivo!" << endl;
     }
 
-    cabecalhoNF();
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "                 NOTA FISCAL"                 << endl;
+    notaFiscal << "--------------------------------------------" << endl;
 
     notaFiscal << "-Comprador: " << endl;
     notaFiscal << "Nome: "<< c.getNome() << endl;
@@ -235,8 +348,8 @@ void notaFiscal( Comprador c, Produtos *p, int qtdProduto, Vendas v ) {
     notaFiscal << endl;
     notaFiscal << "-Valor Total: " << "R$" << valorTotal + frete << endl;
     notaFiscal << "--------------------------------------------" << endl;
-
 }
+
 int main() {
     srand(time(0));
 
@@ -262,16 +375,23 @@ int main() {
 
         switch (opcao) {
             case 1:
-                cout << "Cadastro de produto" << endl;
-                cadastrarProduto(listaDeProdutos, qtdProdutos);
-                qtdProdutos++;
+                int resposta;
+                do {
+                    exibirSubMenu(opcao);
+                    cin >> resposta;
+                    menuProdutos(resposta, listaDeProdutos, qtdProdutos);
+                }while (resposta!=0);
                 break;
             case 2:
+                exibirSubMenu(opcao);
                 cout << "Cadastro de vendedor" << endl;
-                cadastrarVendedor(listaDeVendedores, qtdVendedores);
-                qtdVendedores++;
+                bool cadastroOk = cadastrarVendedor(listaDeVendedores, qtdVendedores);
+                if (cadastroOk){
+                    qtdVendedores++;
+                }
                 break;
             case 3:
+                exibirSubMenu(opcao);
                 cout << "Cadastro de comprador" << endl;
                 cadastrarComprador(listaDeCompradores, qtdCompradores);
                 qtdCompradores++;
