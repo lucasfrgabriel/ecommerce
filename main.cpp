@@ -180,6 +180,63 @@ bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[]
     return true;
 }
 
+void cabecalhoNF() {
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "                 NOTA FISCAL"                 << endl;
+    notaFiscal << "--------------------------------------------" << endl;
+}
+float calculoFrete( Vendas v) {
+        float frete;
+        float precoTotal = v.getValorTotal();
+        if (precoTotal >= 100) {
+            frete = 30;
+        }
+        else if (precoTotal > 100 && precoTotal <= 300) {
+            frete = 20;
+        }
+        else {
+            frete = 0;
+        }
+
+    return frete;
+}
+void notaFiscal( Comprador c, Produtos *p, int qtdProduto, Vendas v ) {
+
+    fstream notaFiscal("notaFiscal.txt", ios::in | ios::out | ios::trunc);
+    if (!notaFiscal.is_open()) {
+        cerr << "Erro ao abrir o arquivo!" << endl;
+    }
+
+    cabecalhoNF();
+
+    notaFiscal << "-Comprador: " << endl;
+    notaFiscal << "Nome: "<< c.getNome() << endl;
+    notaFiscal << "CPF: "<< c.getCpf() << endl;
+    notaFiscal << "Endereço: "<< c.getEndereco().getEnderecoCompleto() << endl;
+    notaFiscal << endl;
+
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "-Produtos Vendidos: " << endl;
+
+    for (int i = 0; i < qtdProduto; i++) {
+        notaFiscal << i << ") "<< "Produto: "<< p[i].getNome() << endl;
+        notaFiscal << "   Quantidade: "<< p[i].getQuantidade() << endl;
+        notaFiscal << "   Produto: "<< p[i].getNome() << endl;
+        notaFiscal << "   Preço Unitário: "<< p[i].getPreco() << endl;
+        notaFiscal << "   Subtotal: "<< p[i].getPreco() * p[i].getQuantidade() << endl;
+        notaFiscal << endl;
+    }
+    float frete = calculoFrete(v);
+    float valorTotal = v.getValorTotal();
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "-Total dos Produtos: " << "R$" << valorTotal << endl;
+    notaFiscal << endl;
+    notaFiscal << "-Frete: " << "R$" <<frete << endl;
+    notaFiscal << endl;
+    notaFiscal << "-Valor Total: " << "R$" << valorTotal + frete << endl;
+    notaFiscal << "--------------------------------------------" << endl;
+
+}
 int main() {
     srand(time(0));
 
