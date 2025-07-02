@@ -6,100 +6,43 @@ using namespace std;
 
 class Vendas {
 private:
-    int codigo_venda;
-    string nomeComprador;
-    Vendedores &vendedor;
-
-    Produtos* listaProdutos;
-    int capacidade;
+    int codVendedor;
     int quantidadeProdutos;
-
     float valorTotal;
+    int codigo_venda;
+    Produtos *produtos = new Produtos[20];
+
     bool vendaFinalizada;
 
     void gerarCodigoVenda() {
-        srand(time(0));
         codigo_venda = rand() % 1000;
     }
 
-    void calcularValorTotal() {
+    void calcularValorTotal(int itens[], int n, int quantidade[]) {
         valorTotal = 0;
-        for (int i = 0; i < quantidadeProdutos; i++) {
-            valorTotal += listaProdutos[i].getPreco() * listaProdutos[i].getQuantidade();
+        for (int i = 0; i < n; i++) {
+            int j = itens[i];
+            valorTotal += produtos[j].getPreco() * quantidade[i];
         }
     }
 
 public:
-    Vendas() : codigo_venda(0), nomeComprador(""), vendedor(*(new Vendedores)),
-               listaProdutos(nullptr), capacidade(0), quantidadeProdutos(0),
-               valorTotal(0), vendaFinalizada(false) {}
-
-    Vendas(string nomeComprador, Vendedores &vendedor, int totalItensDistintos)
-        : nomeComprador(nomeComprador), vendedor(vendedor) {
-        valorTotal = 0;
+    Vendas() {
         quantidadeProdutos = 0;
-        vendaFinalizada = false;
+        valorTotal = 0;
+        codVendedor = -1;
+    }
 
-        if (totalItensDistintos > 0) {
-            capacidade = totalItensDistintos;
-        } else {
-            capacidade = 1;
-        }
-        listaProdutos = new Produtos[capacidade];
-
+    Vendas(int indiceVendedor, int indiceComprador, int carrinho[], int nItens, int quantidade[]) {
         gerarCodigoVenda();
+        calcularValorTotal(carrinho, nItens, quantidade);
+        quantidadeProdutos = nItens;
     }
 
     ~Vendas() {
-        delete[] listaProdutos;
-    }
-
-    void finalizarVenda() {
-        if (vendaFinalizada) {
-            cout << "Aviso: Venda já finalizada." << endl;
-            return;
-        }
-
-        calcularValorTotal();
-        vendedor.setComissoes(valorTotal);
-        vendaFinalizada = true;
+        delete[] produtos;
     }
 
     int getCodigoVenda() const { return codigo_venda; }
-    string getNomeComprador() const { return nomeComprador; }
-    string getNomeVendedor() const { return vendedor.getNome(); }
-    float getValorTotal() { calcularValorTotal(); return valorTotal; }
-    bool isFinalizada() const { return vendaFinalizada; }
-
-    void setNomeComprador(const string &novoNome) {
-        if (!vendaFinalizada) {
-            nomeComprador = novoNome;
-        } else {
-            cout << "Erro: Venda finalizada. Não é possível alterar o comprador." << endl;
-        }
-    }
-
-    void setProduto(Produtos &p, int quantidadeVendida) {
-        if (vendaFinalizada) {
-            cout << "Erro: Venda finalizada. Não é possível adicionar produtos." << endl;
-            return;
-        }
-
-        if (quantidadeProdutos >= capacidade) {
-            cout << "Erro: Capacidade máxima de produtos atingida." << endl;
-            return;
-        }
-
-        if (p.getQuantidade() < quantidadeVendida) {
-            cout << "Erro: Estoque insuficiente para " << p.getNome() << endl;
-            return;
-        }
-
-        Produtos produtoVendido = p;
-        produtoVendido.setQuantidade(quantidadeVendida);
-        listaProdutos[quantidadeProdutos] = produtoVendido;
-        quantidadeProdutos++;
-
-        p.setQuantidade(p.getQuantidade() - quantidadeVendida);
-    }
+    float getValorTotal() { return valorTotal; }
 };

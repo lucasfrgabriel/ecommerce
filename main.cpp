@@ -174,6 +174,10 @@ bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[]
     vendas[qtd_vendas] = Vendas(indiceVendedor, indiceComprador, carrinho, itensNoCarrinho, quantidade);
     cout << "A venda ficou no valor de R$" << vendas[qtd_vendas].getValorTotal() << endl;
     cout << "Venda realizada com sucesso!" << endl;
+    vendedores[indiceVendedor].setComissoes(vendas[qtd_vendas].getValorTotal());
+    cout << "Comissao de R$" << (vendas[qtd_vendas].getValorTotal() * 0.03) << " para o vendedor" << endl;
+
+    return true;
 }
 
 int main() {

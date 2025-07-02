@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 class Vendedores{
@@ -11,8 +12,6 @@ class Vendedores{
 
     void gerarNumero() {
         if (numero == 0) {
-            seed = time(0);
-            srand(seed);
             numero = rand()%1000;
         }
     }

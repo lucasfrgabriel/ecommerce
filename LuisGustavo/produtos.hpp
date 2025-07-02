@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 class Produtos{
@@ -10,8 +11,6 @@ class Produtos{
         float preco;
 
 		void gerarCodigo(){
-			seed = time(0);
-			srand(seed);
 			codigo = rand()%1000;
 		}
     public:
