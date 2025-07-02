@@ -22,13 +22,13 @@ class Vendedores{
         nome = "";
         numero = 0;
         salario = 0;
-        comissoes = 0,03;
+        comissoes = 0.03;
     }
-    Vendedores(string name, float salarioFixo, float comissao){
+    Vendedores(string name, float salarioFixo);{
         setNome(name);
-        setNumero();
+        gerarNumero();
         setSalario(salarioFixo);
-        setComissoes(comissao);
+        comissoes = 0.03;
     }
 
     void setNome(string n){

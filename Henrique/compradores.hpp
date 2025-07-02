@@ -64,6 +64,13 @@ class Comprador {
             cpf = "";
             email = "";
         }
+        Comprador(string nomeComprador, string cpfComprador, string emailComprador,
+                  string rua, string bairro, string cidade, string estado, string cep) {
+            setNome();
+            setCpf();
+            setEmail();
+            setDadosEndereco();
+        }
         void setNome(string n){
             nome = n;
         }

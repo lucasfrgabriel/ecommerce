@@ -40,7 +40,11 @@ public:
         quantidadeProdutos = 0;
         vendaFinalizada = false;
 
-        capacidade = (totalItensDistintos > 0) ? totalItensDistintos : 1;
+        if (totalItensDistintos > 0) {
+            capacidade = totalItensDistintos;
+        } else {
+            capacidade = 1;
+        }
         listaProdutos = new Produtos[capacidade];
 
         gerarCodigoVenda();

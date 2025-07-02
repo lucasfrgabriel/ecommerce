@@ -17,7 +17,6 @@ class Produtos{
     public:
 		Produtos(){
 			nome = "";
-			gerarCodigo();
 			quantidade = 0;
 			preco = 0;
 		}
@@ -25,7 +24,7 @@ class Produtos{
 			setNome(n);
 			setQuantidade(q);
 			setPreco(p);
-
+			gerarCodigo();
 		}
         void setNome(string n){
              if(!n.empty()){
