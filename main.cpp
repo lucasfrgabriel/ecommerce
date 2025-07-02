@@ -15,7 +15,7 @@ void exibirMenu() {
     cout << "2. Menu de vendedores" << endl;
     cout << "3. Menu de compradores" << endl;
     cout << "4. Menu de vendas" << endl;
-    cout << "4. Realizar Venda" << endl;
+    cout << "5. Realizar Venda" << endl;
     cout << "0. Sair" << endl;
     cout << "--------------------------------------------" << endl;
 }
@@ -32,11 +32,14 @@ void exibirSubMenu(int opcao) {
         case 3:
             tipo = "comprador";
             break;
+        case 4:
+            tipo = "venda";
+            break;
     }
     cout << "E-commerce: Menu de " << tipo << endl;
     cout <<"Selecione uma opção:" << endl;
     cout << "--------------------------------------------" << endl;
-    cout << "1. Criar novo " << tipo << endl;
+    cout << "1. Criar " << tipo << endl;
     cout << "2. Alterar " << tipo <<endl;
     cout << "3. Excluir " << tipo <<endl;
     cout << "0. Voltar ao menu principal" << endl;
@@ -375,28 +378,48 @@ int main() {
 
         switch (opcao) {
             case 1:
-                int resposta;
+                int produtoMenu;
                 do {
                     exibirSubMenu(opcao);
-                    cin >> resposta;
-                    menuProdutos(resposta, listaDeProdutos, qtdProdutos);
-                }while (resposta!=0);
+                    cin >> produtoMenu;
+                    menuProdutos(produtoMenu, listaDeProdutos, qtdProdutos);
+                }while (produtoMenu!=0);
                 break;
             case 2:
-                exibirSubMenu(opcao);
-                cout << "Cadastro de vendedor" << endl;
+                int vendedorMenu;
+                do {
+                    exibirSubMenu(opcao);
+                    cin >> vendedorMenu;
+                    menuVendedores(vendedorMenu,listaDeVendedores, qtdVendedores);
+                }while (vendedorMenu !=0);
+                /*cout << "Cadastro de vendedor" << endl;
                 bool cadastroOk = cadastrarVendedor(listaDeVendedores, qtdVendedores);
                 if (cadastroOk){
                     qtdVendedores++;
-                }
+                }*/
                 break;
             case 3:
-                exibirSubMenu(opcao);
-                cout << "Cadastro de comprador" << endl;
+                int compradorMenu;
+                do {
+                    exibirSubMenu(opcao);
+                    cin >> compradorMenu;
+                    menuCompradores(compradorMenu, listaDeCompradores, qtdCompradores);
+                }while (compradorMenu!=0);
+                /*cout << "Cadastro de comprador" << endl;
                 cadastrarComprador(listaDeCompradores, qtdCompradores);
-                qtdCompradores++;
+                qtdCompradores++;*/
                 break;
-            case 4: {
+            case 4:
+                int vendaMenu;
+                do {
+                    exibirSubMenu(opcao);
+                    cin >> vendaMenu;
+                    menuVendas(vendaMenu, listaDeVendas, qtdVendas,
+                                listaDeProdutos, listaDeVendedores, listaDeCompradores,
+                                qtdProdutos, qtdVendedores, qtdCompradores);
+                }while (vendaMenu!=0);
+                break;
+            case 5: {
                 cout << "Realizar Venda" << endl;
                 bool resposta = realizarVenda(listaDeVendas, listaDeProdutos, listaDeVendedores, listaDeCompradores,
                                 qtdVendas, qtdProdutos, qtdVendedores, qtdCompradores);
