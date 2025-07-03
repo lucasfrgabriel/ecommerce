@@ -43,7 +43,6 @@ void exibirSubMenu(int opcao) {
     cout << "--------------------------------------------" << endl;
 }
 
-
 void limpaBuffer() {
     cin.clear();
     cin.ignore();
@@ -281,43 +280,6 @@ void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
 
 }
 
-void excluirProduto() {
-
-}
-void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
-    int codigo, indiceVendedor;
-
-    cout << "Digite o codigo do vendedor a ser excluido: ";
-    limpaBuffer();
-    cin >> codigo;
-    for (int i=0; i<qtdVendedores; i++) {
-        if (listaDeVendedores[i].getNumero() == codigo) {
-            indiceVendedor = i;
-            break;
-        }
-    }
-    listaDeVendedores[indiceVendedor].setNumero(-1);
-    cout << "Vendedor - " << listaDeVendedores[indiceVendedor].getNome() << " - excluido com sucesso.\n";
-
-}
-void excluirComprador(Comprador *listaDeCompradores, int qtdCompradores) {
-    string cpf;
-    int indiceComprador = 0;
-
-    cout << "Digite o cpf do comprador a ser excluido: ";
-    limpaBuffer();
-    cin >> cpf;
-    for (int i=0; i<qtdCompradores; i++) {
-        if (listaDeCompradores->getCpf() == cpf) {
-            indiceComprador = i;
-            break;
-        }
-    }
-    listaDeCompradores[indiceComprador].setCpf("");
-    cout << "Vendedor - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
-
-}
-}
 void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
     switch (opcao) {
         case 1:
@@ -434,6 +396,17 @@ int main() {
                 cadastrarComprador(listaDeCompradores, qtdCompradores);
                 qtdCompradores++;
                 break;
+            case 4:
+                int vendaMenu;
+                do {
+                    exibirSubMenu(opcao);
+                    cin >> vendaMenu;
+                    menuVendas(vendaMenu, listaDeVendas, qtdVendas,
+                                listaDeProdutos, listaDeVendedores, listaDeCompradores,
+                                qtdProdutos, qtdVendedores, qtdCompradores);
+                }while (vendaMenu!=0);
+                break;
+            case 5: {
             case 4: {
 
                 cout << "Realizar Venda" << endl;
