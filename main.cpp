@@ -328,7 +328,7 @@ void excluirProduto(Produtos *listaDeProduto, int qtdProdutos) {
     }
     excluirDoArquivo(codigo);
     listaDeProduto[indiceProduto].setCodigo(-1);
-    cout << "Vendedor - " << listaDeProduto[indiceProduto].getNome() << " - excluido com sucesso.\n";
+    cout << "Produto - " << listaDeProduto[indiceProduto].getNome() << " - excluido com sucesso.\n";
 
 }
 void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
@@ -343,6 +343,7 @@ void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
             break;
         }
     }
+    excluirDoArquivo(codigo);
     listaDeVendedores[indiceVendedor].setNumero(-1);
     cout << "Vendedor - " << listaDeVendedores[indiceVendedor].getNome() << " - excluido com sucesso.\n";
 
@@ -361,8 +362,24 @@ void excluirComprador(Comprador *listaDeCompradores, int qtdCompradores) {
         }
     }
     listaDeCompradores[indiceComprador].setCpf("");
-    cout << "Vendedor - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
+    cout << "Comprador - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
 
+}
+void excluirVendas(Vendas *listaDeVendas, int qtdVendas ) {
+    int codigo, indiceVendas;
+
+
+    cout << "Digite o codigo da venda a ser excluido: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdVendas; i++) {
+        if (listaDeVendas[i].getCodigoVenda() == codigo) {
+            indiceVendas = i;
+            break;
+        }
+    }
+    cout << "Venda com o codigo - " << listaDeVendas[indiceVendas].getCodigoVenda() << " - excluida com sucesso.\n";
+    listaDeVendas[indiceVendas].setCodigoVenda(-1);
 }
 
 void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
@@ -492,7 +509,6 @@ int main() {
                 }while (vendaMenu!=0);
                 break;
             case 5: {
-            case 4: {
 
                 cout << "Realizar Venda" << endl;
                 bool resposta = realizarVenda(listaDeVendas, listaDeProdutos, listaDeVendedores, listaDeCompradores,
@@ -519,3 +535,5 @@ int main() {
 
     return 0;
 }
+
+

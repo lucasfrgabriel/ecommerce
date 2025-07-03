@@ -18,6 +18,7 @@ private:
         codigo_venda = rand() % 1000;
     }
 
+
     void calcularValorTotal(int itens[], int n, int quantidade[]) {
         valorTotal = 0;
         for (int i = 0; i < n; i++) {
@@ -41,6 +42,9 @@ public:
 
     ~Vendas() {
         delete[] produtos;
+    }
+    void setCodigoVenda(int c) {
+        codigo_venda = c;
     }
 
     int getCodigoVenda() const { return codigo_venda; }
