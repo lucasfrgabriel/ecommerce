@@ -45,4 +45,6 @@ public:
 
     int getCodigoVenda() const { return codigo_venda; }
     float getValorTotal() { return valorTotal; }
+    Produtos getProdutos() {return *produtos;}
+    int getQtdProdutosDistintos(){return quantidadeProdutos;}
 };

@@ -40,8 +40,13 @@ void exibirSubMenu(int opcao) {
     cout <<"Selecione uma opção:" << endl;
     cout << "--------------------------------------------" << endl;
     cout << "1. Criar " << tipo << endl;
-    cout << "2. Alterar " << tipo <<endl;
-    cout << "3. Excluir " << tipo <<endl;
+    if (opcao == 4) {
+        cout << "2. Excluir " << tipo << endl;
+    }
+    else {
+        cout << "2. Alterar " << tipo <<endl;
+        cout << "3. Excluir " << tipo <<endl;
+    }
     cout << "0. Voltar ao menu principal" << endl;
     cout << "--------------------------------------------" << endl;
 }
@@ -318,6 +323,25 @@ void alterarComprador(Comprador listaDeCompradores[], int qtdCompradores) {
                     cout << "Email alterado com sucesso!" << endl;
                     break;
                 case 3:
+                    string rua, bairro, cidade, estado, cep;
+                    cout << "Digite a rua: ";
+                    limpaBuffer();
+                    getline(cin, rua);
+                    cout << "Digite o bairro: ";
+                    limpaBuffer();
+                    getline(cin, bairro);
+                    cout << "Digite a cidade: ";
+                    limpaBuffer();
+                    getline(cin, cidade);
+                    cout << "Digite o estado: ";
+                    limpaBuffer();
+                    getline(cin, estado);
+                    cout << "Digite o CEP: ";
+                    limpaBuffer();
+                    getline(cin, cep);
+                    listaDeCompradores[indiceComprador].setDadosEndereco(rua, bairro, cidade, estado, cep);
+                    cout << "Endereco alterado com sucesso" << endl;
+                    break;
                 case 0:
                     verifica = false;
                     break;
@@ -437,7 +461,7 @@ void excluirDoArquivo(int codigo) {
         cout << "Produto com codigo " << codigo << " nao encontrado no arquivo.\n";
     }
 }
-void excluirProduto(Produtos *listaDeProduto, int qtdProdutos) {
+void excluirProduto(Produtos *listaDeProdutos, int qtdProdutos) {
     int codigo, indiceProduto;
 
 
@@ -502,6 +526,29 @@ void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
             break;
         case 3:
         case 0:
+        default:
+            cout << "Opcao invalida." << endl;
+            break;
+    }
+}
+
+void menuVendas(int opcao, Vendas listaDeVendas[], int qtdVendas,
+                Produtos listaDeProdutos[], Vendedores listaDeVendedores[], Comprador listaDeCompradores[],
+               int qtdProdutos, int qtdVendedores, int qtdCompradores) {
+    switch (opcao) {
+        case 1:
+            cout << "Realizar Venda" << endl;
+            bool resposta = realizarVenda(listaDeVendas, listaDeProdutos, listaDeVendedores, listaDeCompradores,
+                                qtdVendas, qtdProdutos, qtdVendedores, qtdCompradores);
+            if (resposta) {
+                qtdVendas++;
+            }
+            break;
+        case 2:
+            cout << "Excluir venda" << endl;
+            excluirVendas(listaDeVendas, qtdVendas);
+        case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
