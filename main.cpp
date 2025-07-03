@@ -427,6 +427,84 @@ void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
     }
 
 }
+void consultarProdutos(Produtos  *listaDeProdutos ,int qtdProdutos) {
+    int codigo, indiceProduto = -1;
+
+    cout << "Digite o codigo do produto a ser consultado: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdProdutos; i++) {
+        if (listaDeProdutos[i].getCodigo() == codigo) {
+            indiceProduto = i;
+            break;
+        }
+    }
+    if (indiceProduto == -1) {
+        cout << "Produto nao encontrado!\n";
+    } else {
+        listaDeProdutos[indiceProduto].mostrarDados();
+    }
+}
+void consultarVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
+    int codigo, indiceVendedor = -1;
+
+    cout << "Digite o codigo do vendedor a ser consultado: ";
+    limpaBuffer();
+    cin >> codigo;
+
+    for (int i = 0; i < qtdVendedores; i++) {
+        if (listaDeVendedores[i].getNumero() == codigo) {
+            indiceVendedor = i;
+            break;
+        }
+    }
+
+    if (indiceVendedor == -1) {
+        cout << "Vendedor nao encontrado!\n";
+    } else {
+        listaDeVendedores[indiceVendedor].mostrarDados();
+    }
+}
+void consultarComprador(Comprador *listaDeCompradores, int qtdCompradores) {
+    int indiceComprador = -1;
+    string cpf;
+    cout << "Digite o codigo do comprador a ser consultado: ";
+    limpaBuffer();
+    cin >> cpf;
+
+    for (int i = 0; i < qtdCompradores; i++) {
+        if (listaDeCompradores[i].getCpf() == cpf) {
+            indiceComprador = i;
+            break;
+        }
+    }
+
+    if (indiceComprador == -1) {
+        cout << "Comprador nao encontrado!\n";
+    } else {
+        listaDeCompradores[indiceComprador].exibirDados();
+    }
+}
+void consultarVendas(Vendas *listaDeVendas, int qtdVendas) {
+    int codigo, indiceVenda = -1;
+
+    cout << "Digite o codigo da venda a ser consultada: ";
+    limpaBuffer();
+    cin >> codigo;
+
+    for (int i = 0; i < qtdVendas; i++) {
+        if (listaDeVendas[i].getCodigoVenda() == codigo) {
+            indiceVenda = i;
+            break;
+        }
+    }
+
+    if (indiceVenda == -1) {
+        cout << "Venda nao encontrada!\n";
+    } else {
+        listaDeVendas[indiceVenda].mostrarDados();
+    }
+}
 void excluirDoArquivo(int codigo) {
     ifstream arquivoLeitura("produtos.txt");
     ofstream arquivoTemp("temp.txt");
@@ -475,8 +553,8 @@ void excluirProduto(Produtos *listaDeProdutos, int qtdProdutos) {
         }
     }
     excluirDoArquivo(codigo);
-    listaDeProduto[indiceProduto].setCodigo(-1);
-    cout << "Vendedor - " << listaDeProduto[indiceProduto].getNome() << " - excluido com sucesso.\n";
+    listaDeProdutos[indiceProduto].setCodigo(-1);
+    cout << "Produto - " << listaDeProdutos[indiceProduto].getNome() << " - excluido com sucesso.\n";
 
 }
 void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
@@ -491,6 +569,7 @@ void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
             break;
         }
     }
+    excluirDoArquivo(codigo);
     listaDeVendedores[indiceVendedor].setNumero(-1);
     cout << "Vendedor - " << listaDeVendedores[indiceVendedor].getNome() << " - excluido com sucesso.\n";
 
@@ -509,8 +588,24 @@ void excluirComprador(Comprador *listaDeCompradores, int qtdCompradores) {
         }
     }
     listaDeCompradores[indiceComprador].setCpf("");
-    cout << "Vendedor - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
+    cout << "Comprador - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
 
+}
+void excluirVendas(Vendas *listaDeVendas, int qtdVendas ) {
+    int codigo, indiceVendas;
+
+
+    cout << "Digite o codigo da venda a ser excluido: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdVendas; i++) {
+        if (listaDeVendas[i].getCodigoVenda() == codigo) {
+            indiceVendas = i;
+            break;
+        }
+    }
+    cout << "Venda com o codigo - " << listaDeVendas[indiceVendas].getCodigoVenda() << " - excluida com sucesso.\n";
+    listaDeVendas[indiceVendas].setCodigoVenda(-1);
 }
 
 void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
@@ -525,7 +620,10 @@ void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
             alterarProduto(listaDeProdutos, qtdProdutos);
             break;
         case 3:
+            cout << "Excluir produto" << endl;
+            excluirProduto(listaDeProdutos, qtdProdutos);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
@@ -569,7 +667,10 @@ void menuVendedores(int opcao, Vendedores listaDeVendedores[], int qtdVendedores
             alterarVendedor(listaDeVendedores, qtdVendedores);
             break;
         case 3:
+            cout << "Excluir vendedor" << endl;
+            excluirVendedor(listaDeVendedores, qtdVendedores);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
@@ -588,7 +689,10 @@ void menuCompradores(int opcao, Comprador listaDeCompradores[], int qtdComprador
             alterarComprador(listaDeCompradores, qtdCompradores);
             break;
         case 3:
+            cout << "Excluir comprador" << endl;
+            excluirComprador(listaDeCompradores, qtdCompradores);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;

@@ -18,6 +18,7 @@ private:
         codigo_venda = rand() % 1000;
     }
 
+
     void calcularValorTotal(int itens[], int n, int quantidade[]) {
         valorTotal = 0;
         for (int i = 0; i < n; i++) {
@@ -42,9 +43,21 @@ public:
     ~Vendas() {
         delete[] produtos;
     }
+    void setCodigoVenda(int c) {
+        codigo_venda = c;
+    }
 
     int getCodigoVenda() const { return codigo_venda; }
     float getValorTotal() { return valorTotal; }
+<<<<<<< HEAD
     Produtos getProdutos() {return *produtos;}
     int getQtdProdutosDistintos(){return quantidadeProdutos;}
+=======
+
+    void mostrarDados() {
+        cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "Codigo do vendedor: " << codVendedor << " - quantidade de produtos: " << quantidadeProdutos << " - valor total: " << valorTotal << " - codigo de venda: " << codigo_venda << endl;
+        cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    }
+>>>>>>> d6c92bda9a9172ce8873657ab8b8ba5d798ba558
 };
