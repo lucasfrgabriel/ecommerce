@@ -60,7 +60,6 @@ void cadastrarProduto(Produtos listaDeProdutos[], int i) {
     string nome;
     int qtd;
     float preco;
-
     cout << "Nome do produto: ";
     limpaBuffer();
     getline(cin, nome);
@@ -72,6 +71,9 @@ void cadastrarProduto(Produtos listaDeProdutos[], int i) {
     cin >> preco;
 
     listaDeProdutos[i] = Produtos(nome, qtd, preco);
+
+    ofstream arquivo("produto.txt", ios::app);
+    listaDeProdutos[i].salvarNoArquivo(arquivo);
     cout << "Produto cadastrado com sucesso!" << endl;
 }
 
@@ -87,6 +89,8 @@ bool cadastrarVendedor(Vendedores listaDeVendedores[], int i) {
     cin >> salario;
     if (salario >= 0) {
         listaDeVendedores[i] = Vendedores(nome, salario);
+        ofstream arquivo("vendedor.txt", ios::app);
+        listaDeVendedores[i].salvarNoArquivo(arquivo);
         cout << "Vendedor cadastrado com sucesso!" << endl;
         return true;
     }
@@ -94,6 +98,7 @@ bool cadastrarVendedor(Vendedores listaDeVendedores[], int i) {
         cout << "Erro ao cadastrar vendedor, salario invalido." << endl;
         return false;
     }
+
 }
 
 void cadastrarComprador(Comprador listaDeCompradores[], int i) {
@@ -117,9 +122,62 @@ void cadastrarComprador(Comprador listaDeCompradores[], int i) {
     getline(cin, cep);
 
     listaDeCompradores[i] = Comprador(nome, cpf, email, rua, bairro, cidade, estado, cep);
+
     cout << "Comprador cadastrado com sucesso!" << endl;
 }
+float calculoFrete( Vendas v) {
+        float frete;
+        float precoTotal = v.getValorTotal();
+        if (precoTotal >= 100) {
+            frete = 30;
+        }
+        else if (precoTotal > 100 && precoTotal <= 300) {
+            frete = 20;
+        }
+        else {
+            frete = 0;
+        }
 
+    return frete;
+}
+
+void notaFiscal(Comprador c, Produtos p[], int qtdProduto, Vendas v , ofstream &notaFiscal) {
+
+    if (!notaFiscal.is_open()) {
+        cerr << "Erro ao abrir o arquivo!" << endl;
+    }
+
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "                 NOTA FISCAL"                 << endl;
+    notaFiscal << "--------------------------------------------" << endl;
+
+    notaFiscal << "-Comprador: " << endl;
+    notaFiscal << "Nome: "<< c.getNome() << endl;
+    notaFiscal << "CPF: "<< c.getCpf() << endl;
+    notaFiscal << "Endereço: "<< c.getEndereco().getEnderecoCompleto() << endl;
+    notaFiscal << endl;
+
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "-Produtos Vendidos: " << endl;
+
+    for (int i = 0; i < qtdProduto; i++) {
+        notaFiscal << i << ") "<< "Produto: "<< p[i].getNome() << endl;
+        notaFiscal << "   Quantidade: "<< p[i].getQuantidade() << endl;
+        notaFiscal << "   Produto: "<< p[i].getNome() << endl;
+        notaFiscal << "   Preço Unitário: "<< p[i].getPreco() << endl;
+        notaFiscal << "   Subtotal: "<< p[i].getPreco() * p[i].getQuantidade() << endl;
+        notaFiscal << endl;
+    }
+    float frete = calculoFrete(v);
+    float valorTotal = v.getValorTotal();
+    notaFiscal << "--------------------------------------------" << endl;
+    notaFiscal << "-Total dos Produtos: " << "R$" << valorTotal << endl;
+    notaFiscal << endl;
+    notaFiscal << "-Frete: " << "R$" <<frete << endl;
+    notaFiscal << endl;
+    notaFiscal << "-Valor Total: " << "R$" << valorTotal + frete << endl;
+    notaFiscal << "--------------------------------------------" << endl;
+}
 bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[], Comprador compradores[],
                    int qtd_vendas, int qtd_produtos, int qtd_vendedores, int qtd_compradores) {
     string cpfComprador;
@@ -214,6 +272,12 @@ bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[]
     cout << "Venda realizada com sucesso!" << endl;
     vendedores[indiceVendedor].caculaComissao(vendas[qtd_vendas].getValorTotal());
     cout << "Comissao de R$" << (vendas[qtd_vendas].getValorTotal() * 0.03) << " para o vendedor" << endl;
+    cout << "Digite o nome da nota fiscal (formato - nome.txt): " << endl;
+    string nf;
+    getline(cin, nf);
+    ofstream arquivo(nf);
+    notaFiscal(compradores[indiceComprador],produtos,qtd_produtos,vendas[qtd_vendas],arquivo);
+
 
     return true;
 }
@@ -699,59 +763,7 @@ void menuCompradores(int opcao, Comprador listaDeCompradores[], int qtdComprador
     }
 }
 
-float calculoFrete( Vendas v) {
-        float frete;
-        float precoTotal = v.getValorTotal();
-        if (precoTotal >= 100) {
-            frete = 30;
-        }
-        else if (precoTotal > 100 && precoTotal <= 300) {
-            frete = 20;
-        }
-        else {
-            frete = 0;
-        }
 
-    return frete;
-}
-
-void notaFiscal(Comprador c, Produtos *p, int qtdProduto, Vendas v) {
-    fstream notaFiscal("notaFiscal.txt", ios::in | ios::out | ios::trunc);
-    if (!notaFiscal.is_open()) {
-        cerr << "Erro ao abrir o arquivo!" << endl;
-    }
-
-    notaFiscal << "--------------------------------------------" << endl;
-    notaFiscal << "                 NOTA FISCAL"                 << endl;
-    notaFiscal << "--------------------------------------------" << endl;
-
-    notaFiscal << "-Comprador: " << endl;
-    notaFiscal << "Nome: "<< c.getNome() << endl;
-    notaFiscal << "CPF: "<< c.getCpf() << endl;
-    notaFiscal << "Endereço: "<< c.getEndereco().getEnderecoCompleto() << endl;
-    notaFiscal << endl;
-
-    notaFiscal << "--------------------------------------------" << endl;
-    notaFiscal << "-Produtos Vendidos: " << endl;
-
-    for (int i = 0; i < qtdProduto; i++) {
-        notaFiscal << i << ") "<< "Produto: "<< p[i].getNome() << endl;
-        notaFiscal << "   Quantidade: "<< p[i].getQuantidade() << endl;
-        notaFiscal << "   Produto: "<< p[i].getNome() << endl;
-        notaFiscal << "   Preço Unitário: "<< p[i].getPreco() << endl;
-        notaFiscal << "   Subtotal: "<< p[i].getPreco() * p[i].getQuantidade() << endl;
-        notaFiscal << endl;
-    }
-    float frete = calculoFrete(v);
-    float valorTotal = v.getValorTotal();
-    notaFiscal << "--------------------------------------------" << endl;
-    notaFiscal << "-Total dos Produtos: " << "R$" << valorTotal << endl;
-    notaFiscal << endl;
-    notaFiscal << "-Frete: " << "R$" <<frete << endl;
-    notaFiscal << endl;
-    notaFiscal << "-Valor Total: " << "R$" << valorTotal + frete << endl;
-    notaFiscal << "--------------------------------------------" << endl;
-}
 
 int main() {
     srand(time(0));
