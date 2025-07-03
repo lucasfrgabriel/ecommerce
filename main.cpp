@@ -596,7 +596,10 @@ void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
             alterarProduto(listaDeProdutos, qtdProdutos);
             break;
         case 3:
+            cout << "Excluir produto" << endl;
+            excluirProduto(listaDeProdutos, qtdProdutos);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
@@ -617,7 +620,10 @@ void menuVendedores(int opcao, Vendedores listaDeVendedores[], int qtdVendedores
             alterarVendedor(listaDeVendedores, qtdVendedores);
             break;
         case 3:
+            cout << "Excluir vendedor" << endl;
+            excluirVendedor(listaDeVendedores, qtdVendedores);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
@@ -636,7 +642,10 @@ void menuCompradores(int opcao, Comprador listaDeCompradores[], int qtdComprador
             alterarComprador(listaDeCompradores, qtdCompradores);
             break;
         case 3:
+            cout << "Excluir comprador" << endl;
+            excluirComprador(listaDeCompradores, qtdCompradores);
         case 0:
+            break;
         default:
             cout << "Opcao invalida." << endl;
             break;
