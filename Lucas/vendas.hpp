@@ -49,4 +49,10 @@ public:
 
     int getCodigoVenda() const { return codigo_venda; }
     float getValorTotal() { return valorTotal; }
+
+    void mostrarDados() {
+        cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+        cout << "Codigo do vendedor: " << codVendedor << " - quantidade de produtos: " << quantidadeProdutos << " - valor total: " << valorTotal << " - codigo de venda: " << codigo_venda << endl;
+        cout << "--------------------------------------------------------------------------------------------------------------------------------------------------------------------------" << endl;
+    }
 };
