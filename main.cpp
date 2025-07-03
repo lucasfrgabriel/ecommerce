@@ -213,8 +213,124 @@ bool realizarVenda(Vendas vendas[], Produtos produtos[], Vendedores vendedores[]
     return true;
 }
 
+void alterarVendedor(Vendedores listaDeVendedores[], int qtdVendedores) {
+    int numero = -1, indiceVendedor, opcao;
+    bool verifica = true;
+
+    cout << "Digite o numero do vendedor a ser alterado: ";
+    limpaBuffer();
+    cin >> numero;
+    for (int i=0; i<qtdVendedores; i++) {
+        if (listaDeVendedores[i].getNumero() == numero) {
+            indiceVendedor = i;
+        }
+    }
+    if (numero < 0) {
+        cout << "Vendedor nao encontrado." << endl;
+    }
+    else {
+        cout << "Vendedor encontrado! Informacoes do Vendedor:" << endl;
+        cout << "Nome: " << listaDeVendedores[indiceVendedor].getNome() << endl;
+        cout << "Salario: " << listaDeVendedores[indiceVendedor].getSalario() << endl;
+        while (verifica) {
+            cout << "--------" << listaDeVendedores[indiceVendedor].getNome() << "--------" << endl;
+            cout << "1. Alterar nome" << endl;
+            cout << "2. Alterar salario" << endl;
+            cout << "0. Voltar ao menu anterior" << endl;
+            cout << "-----------------" << endl;
+            cin >> opcao;
+            switch (opcao) {
+                case 1:
+                    string nome;
+                    cout << "Digite o nome novo: ";
+                    limpaBuffer();
+                    getline(cin, nome);
+                    listaDeVendedores[indiceVendedor].setNome(nome);
+                    cout << "Nome alterado com sucesso!" << endl;
+                    break;
+                case 2:
+                    int salario;
+                    cout << "Digite o novo salario: ";
+                    limpaBuffer();
+                    cin >> salario;
+                    if (salario>=0) {
+                        listaDeVendedores[indiceVendedor].setSalario(salario);
+                        cout << "Salario alterado com sucesso!" << endl;
+                    }
+                    else {
+                        cout << "Salario invalido." << endl;
+                    }
+                    break;
+                case 0:
+                    verifica = false;
+                    break;
+                default:
+                    cout << "Opcao invalida, tente novamente." << endl;
+                    break;
+            }
+        }
+    }
+}
+
+void alterarComprador(Comprador listaDeCompradores[], int qtdCompradores) {
+    int indiceComprador, opcao;
+    bool verifica = true;
+    string cpf = "";
+
+    cout << "Digite o cpf do comprador a ser alterado: ";
+    limpaBuffer();
+    getline(cin, cpf);
+    for (int i=0; i<qtdCompradores; i++) {
+        if (listaDeCompradores[i].getCpf() == cpf) {
+            indiceComprador = i;
+        }
+    }
+    if (cpf == "") {
+        cout << "Comprador nao encontrado." << endl;
+    }
+    else {
+        cout << "Comprador encontrado! Informacoes do Comprador:" << endl;
+        cout << "Nome: " << listaDeCompradores[indiceComprador].getNome() << endl;
+        cout << "Email: " << listaDeCompradores[indiceComprador].getEmail() << endl;
+        cout << "Endereco: " << listaDeCompradores[indiceComprador].getEndereco().getEnderecoCompleto() << endl;
+        while (verifica) {
+            cout << "--------" << listaDeCompradores[indiceComprador].getNome() << "--------" << endl;
+            cout << "1. Alterar nome" << endl;
+            cout << "2. Alterar email" << endl;
+            cout << "3. Alterar endereco" << endl;
+            cout << "0. Voltar ao menu anterior" << endl;
+            cout << "-----------------" << endl;
+            cin >> opcao;
+            switch (opcao) {
+                case 1:
+                    string nome;
+                    cout << "Digite o nome novo: ";
+                    limpaBuffer();
+                    getline(cin, nome);
+                    listaDeCompradores[indiceComprador].setNome(nome);
+                    cout << "Nome alterado com sucesso!" << endl;
+                    break;
+                case 2:
+                    string email;
+                    cout << "Digite o novo email: ";
+                    limpaBuffer();
+                    getline(cin, email);
+                    cout << "Email alterado com sucesso!" << endl;
+                    break;
+                case 3:
+                case 0:
+                    verifica = false;
+                    break;
+                default:
+                    cout << "Opcao invalida, tente novamente." << endl;
+                    break;
+            }
+        }
+    }
+}
+
 void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
-    int codigo, indiceProduto, opcao;
+    int codigo = -1, indiceProduto, opcao;
     bool verifica = true;
 
     cout << "Digite o codigo do produto a ser alterado: ";
@@ -225,62 +341,66 @@ void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
             indiceProduto = i;
         }
     }
-    cout << "Produto encontrado! Informacoes do Produto:" << endl;
-    cout << "Nome: " << listaDeProdutos[indiceProduto].getNome() << endl;
-    cout << "Quantidade em estoque: " << listaDeProdutos[indiceProduto].getQuantidade() << endl;
-    cout << "Preco por unidade: " << listaDeProdutos[indiceProduto].getPreco() << endl;
-    while (verifica) {
-        cout << "--------" << listaDeProdutos[indiceProduto].getNome() << "--------" << endl;
-        cout << "1. Alterar nome" << endl;
-        cout << "2. Alterar quantidade em estoque" << endl;
-        cout << "3. Alterar preco por unidade" << endl;
-        cout << "0. Voltar ao menu anterior" << endl;
-        cout << "-----------------" << endl;
-        cin >> opcao;
-        switch (opcao) {
-            case 1:
-                string nome;
-                cout << "Digite o nome novo: ";
-                limpaBuffer();
-                getline(cin, nome);
-                listaDeProdutos[indiceProduto].setNome(nome);
-                cout << "Nome alterado com sucesso!" << endl;
-                break;
-            case 2:
-                int quantidade;
-                cout << "Digite a nova quantidade em estoque: ";
-                limpaBuffer();
-                cin >> quantidade;
-                if (quantidade>=0) {
-                    listaDeProdutos[indiceProduto].setQuantidade(quantidade);
-                    cout << "Quantidade alterada com sucesso!" << endl;
-                }
-                else {
-                    cout << "Quantidade invalida." << endl;
-                }
-                break;
-            case 3:
-                float preco;
-                cout << "Digite o novo preco por unidade: ";
-                limpaBuffer();
-                cin >> preco;
-                if (preco>=0) {
-                    listaDeProdutos[indiceProduto].setPreco(preco);
-                    cout << "Preco alterado com sucesso!" << endl;
-                }
-                else {
-                    cout << "Preco invalido." << endl;
-                }
-                break;
-            case 0:
-                verifica = false;
-                break;
-            default:
-                cout << "Opcao invalida, tente novamente." << endl;
-                break;
+    if (codigo < 0) {
+        cout << "Produto nao encontrado." << endl;
+    }
+    else {
+        cout << "Produto encontrado! Informacoes do Produto:" << endl;
+        cout << "Nome: " << listaDeProdutos[indiceProduto].getNome() << endl;
+        cout << "Quantidade em estoque: " << listaDeProdutos[indiceProduto].getQuantidade() << endl;
+        cout << "Preco por unidade: " << listaDeProdutos[indiceProduto].getPreco() << endl;
+        while (verifica) {
+            cout << "--------" << listaDeProdutos[indiceProduto].getNome() << "--------" << endl;
+            cout << "1. Alterar nome" << endl;
+            cout << "2. Alterar quantidade em estoque" << endl;
+            cout << "3. Alterar preco por unidade" << endl;
+            cout << "0. Voltar ao menu anterior" << endl;
+            cout << "-----------------" << endl;
+            cin >> opcao;
+            switch (opcao) {
+                case 1:
+                    string nome;
+                    cout << "Digite o nome novo: ";
+                    limpaBuffer();
+                    getline(cin, nome);
+                    listaDeProdutos[indiceProduto].setNome(nome);
+                    cout << "Nome alterado com sucesso!" << endl;
+                    break;
+                case 2:
+                    int quantidade;
+                    cout << "Digite a nova quantidade em estoque: ";
+                    limpaBuffer();
+                    cin >> quantidade;
+                    if (quantidade>=0) {
+                        listaDeProdutos[indiceProduto].setQuantidade(quantidade);
+                        cout << "Quantidade alterada com sucesso!" << endl;
+                    }
+                    else {
+                        cout << "Quantidade invalida." << endl;
+                    }
+                    break;
+                case 3:
+                    float preco;
+                    cout << "Digite o novo preco por unidade: ";
+                    limpaBuffer();
+                    cin >> preco;
+                    if (preco>=0) {
+                        listaDeProdutos[indiceProduto].setPreco(preco);
+                        cout << "Preco alterado com sucesso!" << endl;
+                    }
+                    else {
+                        cout << "Preco invalido." << endl;
+                    }
+                    break;
+                case 0:
+                    verifica = false;
+                    break;
+                default:
+                    cout << "Opcao invalida, tente novamente." << endl;
+                    break;
+            }
         }
     }
-
 }
 
 void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
@@ -293,9 +413,52 @@ void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
         case 2:
             cout << "Alteracao de produto" << endl;
             alterarProduto(listaDeProdutos, qtdProdutos);
+            break;
         case 3:
         case 0:
         default:
+            cout << "Opcao invalida." << endl;
+            break;
+    }
+}
+
+void menuVendedores(int opcao, Vendedores listaDeVendedores[], int qtdVendedores) {
+    switch (opcao) {
+        case 1:
+            cout << "Cadastro de vendedor" << endl;
+            bool cadastroOk = cadastrarVendedor(listaDeVendedores, qtdVendedores);
+            if (cadastroOk){
+                qtdVendedores++;
+            }
+            break;
+        case 2:
+            cout << "Alteracao de vendedor" << endl;
+            alterarVendedor(listaDeVendedores, qtdVendedores);
+            break;
+        case 3:
+        case 0:
+        default:
+            cout << "Opcao invalida." << endl;
+            break;
+    }
+}
+
+void menuCompradores(int opcao, Comprador listaDeCompradores[], int qtdCompradores) {
+    switch (opcao) {
+        case 1:
+            cout << "Cadastro de comprador" << endl;
+            cadastrarComprador(listaDeCompradores, qtdCompradores);
+            qtdCompradores++;
+            break;
+        case 2:
+            cout << "Alteracao de comprador" << endl;
+            alterarComprador(listaDeCompradores, qtdCompradores);
+            break;
+        case 3:
+        case 0:
+        default:
+            cout << "Opcao invalida." << endl;
+            break;
     }
 }
 
@@ -392,11 +555,6 @@ int main() {
                     cin >> vendedorMenu;
                     menuVendedores(vendedorMenu,listaDeVendedores, qtdVendedores);
                 }while (vendedorMenu !=0);
-                /*cout << "Cadastro de vendedor" << endl;
-                bool cadastroOk = cadastrarVendedor(listaDeVendedores, qtdVendedores);
-                if (cadastroOk){
-                    qtdVendedores++;
-                }*/
                 break;
             case 3:
                 int compradorMenu;
@@ -405,9 +563,6 @@ int main() {
                     cin >> compradorMenu;
                     menuCompradores(compradorMenu, listaDeCompradores, qtdCompradores);
                 }while (compradorMenu!=0);
-                /*cout << "Cadastro de comprador" << endl;
-                cadastrarComprador(listaDeCompradores, qtdCompradores);
-                qtdCompradores++;*/
                 break;
             case 4:
                 int vendaMenu;
