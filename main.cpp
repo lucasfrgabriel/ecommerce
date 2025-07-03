@@ -279,6 +279,91 @@ void alterarProduto(Produtos listaDeProdutos[], int qtdProdutos) {
     }
 
 }
+void excluirDoArquivo(int codigo) {
+    ifstream arquivoLeitura("produtos.txt");
+    ofstream arquivoTemp("temp.txt");
+    string linha;
+    bool encontrado = false;
+
+    if (!arquivoLeitura || !arquivoTemp) {
+        cout << "Erro ao abrir arquivos!\n";
+        return;
+    }
+
+    while (getline(arquivoLeitura, linha)) {
+
+        size_t pos = linha.find("codigo: " + to_string(codigo));
+
+        if (pos != string::npos) {
+            encontrado = true;
+
+            arquivoTemp << "\n";
+        } else {
+            arquivoTemp << linha << "\n";
+        }
+    }
+
+    arquivoLeitura.close();
+    arquivoTemp.close();
+
+    remove("produtos.txt");
+    rename("temp.txt", "produtos.txt");
+
+    if (!encontrado) {
+        cout << "Produto com codigo " << codigo << " nao encontrado no arquivo.\n";
+    }
+}
+void excluirProduto(Produtos *listaDeProduto, int qtdProdutos) {
+    int codigo, indiceProduto;
+
+
+    cout << "Digite o codigo do produto a ser excluido: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdProdutos; i++) {
+        if (listaDeProdutos[i].getCodigo() == codigo) {
+            indiceProduto = i;
+            break;
+        }
+    }
+    excluirDoArquivo(codigo);
+    listaDeProduto[indiceProduto].setCodigo(-1);
+    cout << "Vendedor - " << listaDeProduto[indiceProduto].getNome() << " - excluido com sucesso.\n";
+
+}
+void excluirVendedor(Vendedores *listaDeVendedores, int qtdVendedores) {
+    int codigo, indiceVendedor;
+
+    cout << "Digite o codigo do vendedor a ser excluido: ";
+    limpaBuffer();
+    cin >> codigo;
+    for (int i=0; i<qtdVendedores; i++) {
+        if (listaDeVendedores[i].getNumero() == codigo) {
+            indiceVendedor = i;
+            break;
+        }
+    }
+    listaDeVendedores[indiceVendedor].setNumero(-1);
+    cout << "Vendedor - " << listaDeVendedores[indiceVendedor].getNome() << " - excluido com sucesso.\n";
+
+}
+void excluirComprador(Comprador *listaDeCompradores, int qtdCompradores) {
+    string cpf;
+    int indiceComprador = 0;
+
+    cout << "Digite o cpf do comprador a ser excluido: ";
+    limpaBuffer();
+    cin >> cpf;
+    for (int i=0; i<qtdCompradores; i++) {
+        if (listaDeCompradores->getCpf() == cpf) {
+            indiceComprador = i;
+            break;
+        }
+    }
+    listaDeCompradores[indiceComprador].setCpf("");
+    cout << "Vendedor - " << listaDeCompradores[indiceComprador].getNome() << " - excluido com sucesso.\n";
+
+}
 
 void menuProdutos(int opcao, Produtos listaDeProdutos[], int qtdProdutos) {
     switch (opcao) {
