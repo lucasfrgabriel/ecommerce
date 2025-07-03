@@ -54,12 +54,12 @@ class Vendedores{
 
     void salvarNoArquivo(ofstream &arquivo) {
         arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
-        arquivo << "Nome: " << nome << " - numero: " << numero << " - salário: " << salario << " - comissões: " << comissoes<< "\n";
+        arquivo << "Nome: " << nome << " - numero: " << numero << " - salario: " << salario << " - comissoes: " << comissoes<< "\n";
         arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
     }
     void mostrarDados() {
         cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
-        cout << "Nome: " << nome << " - numero: " << numero << " - salário: " << salario << " - comissões: " << comissoes << endl;
+        cout << "Nome: " << nome << " - numero: " << numero << " - salario: " << salario << " - comissoes: " << comissoes << endl;
         cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
     }
 };

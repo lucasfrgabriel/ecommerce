@@ -63,12 +63,12 @@ class Produtos{
         }
 	void salvarNoArquivo(ofstream &arquivo) {
 			arquivo << "--------------------------------------------------------------------------------------------------------------------------\n";
-			arquivo << "Nome: " << nome << " - codigo: " << codigo << " - quantidade: " << quantidade << " - preço: " << preco << "\n";
+			arquivo << "Nome: " << nome << " - codigo: " << codigo << " - quantidade: " << quantidade << " - preço: R$" << preco << "\n";
 			arquivo << "---------------------------------------------------------------------------------------------------------------------------\n";
 	}
 	void mostrarDados() {
 			cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
-			cout << "Nome: " << nome << " - codigo: " << codigo << " - quantidade: " << quantidade << " - preço: " << preco << endl;
+			cout << "Nome: " << nome << " - codigo: " << codigo << " - quantidade: " << quantidade << " - preço: R$" << preco << endl;
 			cout << "---------------------------------------------------------------------------------------------------------------------------" << endl;
 		}
 };
