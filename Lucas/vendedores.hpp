@@ -53,6 +53,9 @@ class Vendedores{
     float getComissoes(){return comissoes;}
 
     void salvarNoArquivo(ofstream &arquivo) {
+        if (numero < 0) {
+            numero = rand()%1000;
+        }
         arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
         arquivo << "Nome: " << nome << " - numero: " << numero << " - salario: " << salario << " - comissoes: " << comissoes<< "\n";
         arquivo << "-------------------------------------------------------------------------------------------------------------------------\n";
