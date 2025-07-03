@@ -59,6 +59,8 @@ public:
     {
         setDadosEndereco(rua, bairro, cidade, estado, cep);
     }
+    ~Comprador(){}
+
 
     void setNome(const string& n) { nome = n; }
     string getNome() const { return nome; }

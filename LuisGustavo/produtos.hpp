@@ -26,6 +26,11 @@ class Produtos{
 			setPreco(p);
 			gerarCodigo();
 		}
+		~Produtos(){}
+
+		void setCodigo(int c) {
+			codigo = c;
+		}
         void setNome(string n){
              if(!n.empty()){
             	nome = n;
@@ -45,6 +50,7 @@ class Produtos{
 		string getNome(){
             return nome;
         }
+
 
         int getCodigo(){
             return codigo;

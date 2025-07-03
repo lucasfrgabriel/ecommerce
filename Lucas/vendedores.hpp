@@ -28,13 +28,15 @@ class Vendedores{
         gerarNumero();
         setSalario(salarioFixo);
     }
-
+    ~Vendedores(){}
     void setNome(string n){
         if(!n.empty()){
             nome = n;
         }
     }
-
+    void setNumero(int n) {
+        numero = n;
+    }
     void setSalario(float s){
         if(s > 0){
             salario = s;
